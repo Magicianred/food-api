@@ -16,8 +16,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
-
-import com.foodapi.api.model.CozinhasXmlWrapper;
 import com.foodapi.domain.exception.EntidadeEmUsoException;
 import com.foodapi.domain.exception.EntidadeNaoEncontradaException;
 import com.foodapi.domain.model.Cozinha;
@@ -37,11 +35,6 @@ public class CozinhaController {
 	@GetMapping
 	public List<Cozinha> listar(){
 		return cozinhaRepository.listar();
-	}
-	
-	@GetMapping(produces = MediaType.APPLICATION_XML_VALUE)
-	public CozinhasXmlWrapper listarXml(){
-		return new CozinhasXmlWrapper(cozinhaRepository.listar());
 	}
 	
 	@GetMapping(value = "/{cozinhaId}")
@@ -66,7 +59,7 @@ public class CozinhaController {
 		Cozinha cozinhaAtual = cozinhaRepository.buscar(cozinhaId);
 		if(cozinhaAtual != null) {
 			BeanUtils.copyProperties(cozinha, cozinhaAtual, "id");
-			cozinhaAtual = cozinhaRepository.salvar(cozinhaAtual);			
+			cozinhaAtual = cadastroCozinha.salvar(cozinhaAtual);			
 			return ResponseEntity.ok(cozinhaAtual);
 		}
 		
