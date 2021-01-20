@@ -15,6 +15,8 @@ insert into cidade (id, nome, estado_id) values (3, 'São Paulo', 2);
 insert into cidade (id, nome, estado_id) values (4, 'Campinas', 2);
 insert into cidade (id, nome, estado_id) values (5, 'Fortaleza', 3);
 
+insert into restaurante (id, nome, taxa_frete, cozinha_id, data_cadastro, data_atualizacao) values (2, 'Thai Delivery', 9.50, 1, utc_timestamp, utc_timestamp);
+
 insert into forma_pagamento (id, descricao) values (1, 'Cartão de crédito');
 insert into forma_pagamento (id, descricao) values (2, 'Cartão de débito');
 insert into forma_pagamento (id, descricao) values (3, 'Dinheiro');
