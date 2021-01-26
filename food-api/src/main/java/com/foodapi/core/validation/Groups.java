@@ -1,4 +1,4 @@
-package com.foodapi;
+package com.foodapi.core.validation;
 
 public interface Groups {
 
