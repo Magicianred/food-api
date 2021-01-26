@@ -29,10 +29,13 @@ import org.hibernate.annotations.UpdateTimestamp;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.foodapi.core.validation.Groups;
 import com.foodapi.core.validation.Multiplo;
+import com.foodapi.core.validation.ValorZeroIncluiDescricao;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
+@ValorZeroIncluiDescricao(valorField = "taxaFrete", descricaoField = "nome", 
+	descricaoObrigatoria = "Frete Grátis")
 @Data
 @EqualsAndHashCode(onlyExplicitlyIncluded  = true)
 @Entity
@@ -42,7 +45,8 @@ public class Restaurante {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-
+	
+	
 	@NotBlank
 	@Column(nullable = false)
 	private String nome;
