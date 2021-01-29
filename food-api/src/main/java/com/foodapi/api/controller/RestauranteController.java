@@ -15,10 +15,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.foodapi.assembler.RestauranteInputDisassembler;
 import com.foodapi.assembler.RestauranteModelAssembler;
 import com.foodapi.domain.exception.CozinhaNaoEncontradaException;
 import com.foodapi.domain.exception.NegocioException;
-import com.foodapi.domain.model.Cozinha;
 import com.foodapi.domain.model.Restaurante;
 import com.foodapi.domain.model.input.RestauranteInput;
 import com.foodapi.domain.repository.RestauranteRepository;
@@ -37,6 +37,9 @@ public class RestauranteController {
 
 	@Autowired
 	private RestauranteModelAssembler restauranteModelAssembler;
+	
+	@Autowired
+	private RestauranteInputDisassembler restauranteInputDisassembler; 
 
 	@GetMapping
 	public List<RestauranteModel> listar() {
@@ -54,7 +57,7 @@ public class RestauranteController {
 	@ResponseStatus(HttpStatus.CREATED)
 	public RestauranteModel adicionar(@RequestBody @Valid RestauranteInput restauranteInput) {
 		try {
-			Restaurante restaurante = toDomainObject(restauranteInput);
+			Restaurante restaurante = restauranteInputDisassembler.toDomainObject(restauranteInput);
 
 			return restauranteModelAssembler.toModel(cadastroRestaurante.salvar(restaurante));
 		} catch (CozinhaNaoEncontradaException e) {
@@ -66,7 +69,7 @@ public class RestauranteController {
 	public RestauranteModel atualizar(@PathVariable Long restauranteId,
 			@RequestBody @Valid RestauranteInput restauranteInput) {
 		try {
-			Restaurante restaurante = toDomainObject(restauranteInput);
+			Restaurante restaurante = restauranteInputDisassembler.toDomainObject(restauranteInput);
 
 			Restaurante restauranteAtual = cadastroRestaurante.buscarOuFalhar(restauranteId);
 
@@ -77,19 +80,6 @@ public class RestauranteController {
 		} catch (CozinhaNaoEncontradaException e) {
 			throw new NegocioException(e.getMessage());
 		}
-	}
-
-	private Restaurante toDomainObject(RestauranteInput restauranteInput) {
-		Restaurante restaurante = new Restaurante();
-		restaurante.setNome(restauranteInput.getNome());
-		restaurante.setTaxaFrete(restauranteInput.getTaxaFrete());
-
-		Cozinha cozinha = new Cozinha();
-		cozinha.setId(restauranteInput.getCozinha().getId());
-
-		restaurante.setCozinha(cozinha);
-
-		return restaurante;
 	}
 
 }
