@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.foodapi.assembler.RestauranteInputDisassembler;
 import com.foodapi.assembler.RestauranteModelAssembler;
+import com.foodapi.domain.exception.CidadeNaoEncontradaException;
 import com.foodapi.domain.exception.CozinhaNaoEncontradaException;
 import com.foodapi.domain.exception.NegocioException;
 import com.foodapi.domain.model.Restaurante;
@@ -59,7 +60,7 @@ public class RestauranteController {
 			Restaurante restaurante = restauranteInputDisassembler.toDomainObject(restauranteInput);
 
 			return restauranteModelAssembler.toModel(cadastroRestaurante.salvar(restaurante));
-		} catch (CozinhaNaoEncontradaException e) {
+		} catch (CozinhaNaoEncontradaException | CidadeNaoEncontradaException e) {
 			throw new NegocioException(e.getMessage());
 		}
 	}
@@ -73,7 +74,7 @@ public class RestauranteController {
 			restauranteInputDisassembler.copyToDomainObject(restauranteInput, restauranteAtual);
 			
 			return restauranteModelAssembler.toModel(cadastroRestaurante.salvar(restauranteAtual));
-		} catch (CozinhaNaoEncontradaException e) {
+		} catch (CozinhaNaoEncontradaException | CidadeNaoEncontradaException e) {
 			throw new NegocioException(e.getMessage());
 		}
 	}
