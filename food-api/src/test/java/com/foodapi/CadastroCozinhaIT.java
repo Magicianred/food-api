@@ -2,6 +2,7 @@ package com.foodapi;
 
 import static io.restassured.RestAssured.given;
 
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -31,6 +32,11 @@ public class CadastroCozinhaIT {
 			.get()
 		.then()
 			.statusCode(HttpStatus.OK.value());
+	}
+	
+	@Before
+	public void setUp() {
+	    RestAssured.port = port;
 	}
 
 }
