@@ -5,6 +5,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import com.foodapi.domain.model.Endereco;
+import com.foodapi.domain.model.ItemPedido;
+import com.foodapi.domain.model.input.ItemPedidoInput;
 import com.foodapi.model.EnderecoModel;
 
 @Configuration
@@ -16,6 +18,9 @@ public class ModelMapperConfig {
 		
 		/*modelMapper.createTypeMap(Restaurante.class, RestauranteModel.class)
 			.addMapping(Restaurante::getTaxaFrete, RestauranteModel::setPrecoFrete);*/
+		
+		modelMapper.createTypeMap(ItemPedidoInput.class, ItemPedido.class)
+	    	.addMappings(mapper -> mapper.skip(ItemPedido::setId));  
 		
 		var enderecoToEnderecoModelTypeMap = modelMapper.createTypeMap(Endereco.class, EnderecoModel.class);
 		
