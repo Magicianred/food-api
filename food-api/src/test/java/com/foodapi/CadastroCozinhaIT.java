@@ -2,18 +2,18 @@ package com.foodapi;
 
 import static io.restassured.RestAssured.given;
 
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.http.HttpStatus;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 
-@RunWith(SpringRunner.class)
+@ExtendWith(SpringExtension.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class CadastroCozinhaIT {
 
@@ -34,7 +34,7 @@ public class CadastroCozinhaIT {
 			.statusCode(HttpStatus.OK.value());
 	}
 	
-	@Before
+	@BeforeEach
 	public void setUp() {
 	    RestAssured.port = port;
 	}
