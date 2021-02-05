@@ -23,7 +23,9 @@ import com.foodapi.domain.model.Pedido;
 import com.foodapi.domain.model.Usuario;
 import com.foodapi.domain.model.input.PedidoInput;
 import com.foodapi.domain.repository.PedidoRepository;
+import com.foodapi.domain.repository.filter.PedidoFilter;
 import com.foodapi.domain.service.EmissaoPedidoService;
+import com.foodapi.infrastructure.repository.spec.PedidoSpecs;
 import com.foodapi.model.PedidoModel;
 import com.foodapi.model.PedidoResumoModel;
 
@@ -47,8 +49,8 @@ public class PedidoController {
 	private PedidoInputDisassembler pedidoInputDisassembler;
 	
 	@GetMapping
-	public List<PedidoResumoModel> listar() {
-		List<Pedido> todosPedidos = pedidoRepository.findAll();
+	public List<PedidoResumoModel> pesquisar(PedidoFilter filtro) {
+		List<Pedido> todosPedidos = pedidoRepository.findAll(PedidoSpecs.usandoFiltro(filtro));
 		
 		return pedidoResumoModelAssembler.toCollectionModel(todosPedidos);
 	}
