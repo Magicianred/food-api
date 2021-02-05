@@ -1,4 +1,4 @@
-package com.foodapi.api.controller;
+package com.foodapi.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

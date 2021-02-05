@@ -1,4 +1,4 @@
-package com.foodapi.api.controller;
+package com.foodapi.controller;
 
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
