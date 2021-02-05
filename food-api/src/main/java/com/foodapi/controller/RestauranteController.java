@@ -57,7 +57,7 @@ public class RestauranteController {
 		return listar();
 	}
 	
-	/*
+	
 	@GetMapping
 	public MappingJacksonValue listar(@RequestParam(required = false) String projecao) {
 		List<Restaurante> restaurantes = restauranteRepository.findAll();	
@@ -76,15 +76,14 @@ public class RestauranteController {
 		
 		return restaurantesWrapper;
 	}
-	*/
 	
-	/*	
+	
 	@JsonView(RestauranteView.Resumo.class)
 	@GetMapping(params = "projecao=resumo")
 	public List<RestauranteModel> listarResumido() {
 		return listar();
 	}
-*/
+
 	@GetMapping("/{restauranteId}")
 	public RestauranteModel buscar(@PathVariable Long restauranteId) {
 		Restaurante restaurante = cadastroRestaurante.buscarOuFalhar(restauranteId);
