@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.validation.Valid;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.converter.json.MappingJacksonValue;
@@ -68,6 +69,11 @@ public class PedidoController {
         SimpleFilterProvider filterProvider = new SimpleFilterProvider();
         filterProvider.addFilter("pedidoFilter", SimpleBeanPropertyFilter
         		.serializeAll());
+        
+        if(StringUtils.isNotBlank(campos)) {
+        	filterProvider.addFilter("pedidoFilter", SimpleBeanPropertyFilter
+        			.filterOutAllExcept(campos.split(",")));
+        }
         
         pedidosWrapper.setFilters(filterProvider);
         
