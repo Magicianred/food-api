@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.foodapi.assembler.PedidoInputDisassembler;
 import com.foodapi.assembler.PedidoModelAssembler;
 import com.foodapi.assembler.PedidoResumoModelAssembler;
+import com.foodapi.core.data.PageableTranslator;
 import com.foodapi.domain.exception.EntidadeNaoEncontradaException;
 import com.foodapi.domain.exception.NegocioException;
 import com.foodapi.domain.model.Pedido;
@@ -32,6 +33,7 @@ import com.foodapi.domain.service.EmissaoPedidoService;
 import com.foodapi.infrastructure.repository.spec.PedidoSpecs;
 import com.foodapi.model.PedidoModel;
 import com.foodapi.model.PedidoResumoModel;
+import com.google.common.collect.ImmutableMap;
 
 @RestController
 @RequestMapping(value = "/pedidos")
@@ -55,6 +57,9 @@ public class PedidoController {
 	@GetMapping
 	public Page<PedidoResumoModel> pesquisar(PedidoFilter filtro, 
 	        @PageableDefault(size = 10) Pageable pageable) {
+		
+		pageable = traduzirPageable(pageable);
+		
 	    Page<Pedido> pedidosPage = pedidoRepository.findAll(
 	            PedidoSpecs.usandoFiltro(filtro), pageable);
 	    
@@ -90,6 +95,16 @@ public class PedidoController {
 		Pedido pedido = emissaoPedido.buscarOuFalhar(codigoPedido);
 		
 		return pedidoModelAssembler.toModel(pedido);
+	}
+	
+	private Pageable traduzirPageable(Pageable apiPageable) {
+		var mapeamento = ImmutableMap.of("codigo", "codigo",
+				"restaurante.nome", "restaurante.nome",
+				"nomeCliente", "cliente.nome",
+				"valorTotal", "valorTotal");
+				
+		return PageableTranslator.translate(apiPageable, mapeamento);
+		
 	}
 	
 }

@@ -17,5 +17,6 @@ public class PedidoResumoModel {
     private String status;
     private OffsetDateTime dataCriacao;
     private RestauranteResumoModel restaurante;
-    private UsuarioModel cliente;   
+    //private UsuarioModel cliente;
+    private String nomeCliente;
 } 
