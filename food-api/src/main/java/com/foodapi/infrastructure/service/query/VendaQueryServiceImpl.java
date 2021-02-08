@@ -1,4 +1,4 @@
-package com.foodapi.infrastructure.service;
+package com.foodapi.infrastructure.service.query;
 
 import java.util.ArrayList;
 import java.util.Date;
