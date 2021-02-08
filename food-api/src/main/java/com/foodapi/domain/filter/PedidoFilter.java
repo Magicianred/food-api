@@ -1,4 +1,4 @@
-package com.foodapi.domain.repository.filter;
+package com.foodapi.domain.filter;
 
 import java.time.OffsetDateTime;
 
