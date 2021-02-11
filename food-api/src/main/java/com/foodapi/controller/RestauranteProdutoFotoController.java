@@ -1,5 +1,7 @@
 package com.foodapi.controller;
 
+import java.io.IOException;
+
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,7 +35,7 @@ public class RestauranteProdutoFotoController {
 
 	@PutMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
 	public FotoProdutoModel atualizarFoto(@PathVariable Long restauranteId, @PathVariable Long produtoId,
-			@Valid FotoProdutoInput fotoProdutoInput) {
+			@Valid FotoProdutoInput fotoProdutoInput) throws IOException {
 
 		Produto produto = cadastroProduto.buscarOuFalhar(restauranteId, produtoId);
 		
@@ -46,7 +48,7 @@ public class RestauranteProdutoFotoController {
 		foto.setTamanho(arquivo.getSize());
 		foto.setNomeArquivo(arquivo.getOriginalFilename());
 		
-		FotoProduto fotoSalva = catalogoFotoProduto.salvar(foto);		
+		FotoProduto fotoSalva = catalogoFotoProduto.salvar(foto, arquivo.getInputStream());		
 
 		return fotoProdutoModelAssembler.toModel(fotoSalva);
 	}
