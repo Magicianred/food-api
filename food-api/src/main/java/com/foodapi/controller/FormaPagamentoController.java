@@ -62,7 +62,7 @@ public class FormaPagamentoController {
       FormaPagamentoModel formaPagamentoModel =  formaPagamentoModelAssembler.toModel(formaPagamento);
       
       return ResponseEntity.ok()
-          .cacheControl(CacheControl.maxAge(10, TimeUnit.SECONDS))
+          .cacheControl(CacheControl.maxAge(10, TimeUnit.SECONDS).cachePublic())
           .body(formaPagamentoModel);
     }
     
