@@ -1,7 +1,6 @@
 package com.foodapi.controller;
 
 import java.util.List;
-
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -61,9 +60,13 @@ public class CidadeController {
 	    try {
 	        Cidade cidade = cidadeInputDisassembler.toDomainObject(cidadeInput);
 	        
-	        cidade = cadastroCidade.salvar(cidade);
+	        cidade = cadastroCidade.salvar(cidade); 
 	        
-	        return cidadeModelAssembler.toModel(cidade);
+	        CidadeModel cidadeModel = cidadeModelAssembler.toModel(cidade);
+	        
+	        ResourceUriHelper.addUriInResponseHeader(cidadeModel.getId());
+	        	        
+	        return cidadeModel;
 	    } catch (EstadoNaoEncontradoException e) {
 	        throw new NegocioException(e.getMessage(), e);
 	    }
