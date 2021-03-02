@@ -1,14 +1,13 @@
 package com.foodapi.controller;
 
-import java.util.List;
-
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.data.web.PagedResourcesAssembler;
+import org.springframework.hateoas.PagedModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -54,22 +53,18 @@ public class PedidoController {
 	@Autowired
 	private PedidoInputDisassembler pedidoInputDisassembler;
 	
+	@Autowired
+	private PagedResourcesAssembler<Pedido> pagedResourcesAssembler;
+	
 	@GetMapping
-	public Page<PedidoResumoModel> pesquisar(PedidoFilter filtro, 
+	public PagedModel<PedidoResumoModel> pesquisar(PedidoFilter filtro, 
 	        @PageableDefault(size = 10) Pageable pageable) {
-		
-		pageable = traduzirPageable(pageable);
-		
+	    pageable = traduzirPageable(pageable);
+	    
 	    Page<Pedido> pedidosPage = pedidoRepository.findAll(
 	            PedidoSpecs.usandoFiltro(filtro), pageable);
 	    
-	    List<PedidoResumoModel> pedidosResumoModel = pedidoResumoModelAssembler
-	            .toCollectionModel(pedidosPage.getContent());
-	    
-	    Page<PedidoResumoModel> pedidosResumoModelPage = new PageImpl<>(
-	            pedidosResumoModel, pageable, pedidosPage.getTotalElements());
-	    
-	    return pedidosResumoModelPage;
+	    return pagedResourcesAssembler.toModel(pedidosPage, pedidoResumoModelAssembler);
 	}
 	
 	@PostMapping
@@ -78,7 +73,6 @@ public class PedidoController {
 		try {
 			Pedido novoPedido = pedidoInputDisassembler.toDomainObject(pedidoInput);
 
-			// TODO pegar usuário autenticado
 			novoPedido.setCliente(new Usuario());
 			novoPedido.getCliente().setId(1L);
 
